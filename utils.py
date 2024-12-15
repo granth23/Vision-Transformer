@@ -8,7 +8,6 @@ import torchvision.transforms as transforms
 
 from vit import ViTForClassfication
 
-
 def save_experiment(experiment_name, config, model, train_losses, test_losses, accuracies, base_dir="experiments"):
     outdir = os.path.join(base_dir, experiment_name)
     os.makedirs(outdir, exist_ok=True)
@@ -37,12 +36,12 @@ def save_checkpoint(experiment_name, model, epoch, base_dir="experiments"):
 
 
 def load_experiment(experiment_name, checkpoint_name="model_final.pt", base_dir="experiments"):
-    outdir = os.path.join(base_dir, experiment_name)
-    configfile = os.path.join(outdir, 'config.json')
+    configfile = os.path.join(experiment_name, 'config.json')
+    print(configfile)
     with open(configfile, 'r') as f:
         config = json.load(f)
 
-    jsonfile = os.path.join(outdir, 'metrics.json')
+    jsonfile = os.path.join(experiment_name, 'metrics.json')
     with open(jsonfile, 'r') as f:
         data = json.load(f)
     train_losses = data['train_losses']
@@ -50,7 +49,7 @@ def load_experiment(experiment_name, checkpoint_name="model_final.pt", base_dir=
     accuracies = data['accuracies']
 
     model = ViTForClassfication(config)
-    cpfile = os.path.join(outdir, checkpoint_name)
+    cpfile = os.path.join(experiment_name, checkpoint_name)
     model.load_state_dict(torch.load(cpfile))
     return config, model, train_losses, test_losses, accuracies
 
@@ -123,6 +122,4 @@ def visualize_attention(model, output=None, device="cuda"):
         gt = classes[labels[i]]
         pred = classes[predictions[i]]
         ax.set_title(f"gt: {gt} / pred: {pred}", color=("green" if gt==pred else "red"))
-    if output is not None:
-        plt.savefig(output)
     plt.show()

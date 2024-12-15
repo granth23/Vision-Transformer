@@ -4,7 +4,7 @@ This is a simplified PyTorch implementation of the paper [An Image is Worth 16x1
 
 The above project has been developed by:
 
-- Granth Bagadia - 2022A7PS0217
+- Granth Bagadia - 2022A7PS0217H
 - Harshit Juneja - 2021A7PS2946H
 - Rishabh Goyal - 2021B1A72320H
 
